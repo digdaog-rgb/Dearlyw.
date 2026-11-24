@@ -1,0 +1,102 @@
+:root{
+  --paper:#faf4ea; --ink:#3a2f2a; --muted:#7d6f66;
+  --burgundy:#7a1f3d; --navy:#1e3a5f; --appr:#3f74b8;
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  min-height:100vh; color:var(--ink);
+  font-family:"Quicksand","Segoe UI",system-ui,sans-serif;
+  background:
+    radial-gradient(900px 500px at 15% -10%,#fff 0,transparent 60%),
+    radial-gradient(700px 500px at 100% 100%,#f1e2cc 0,transparent 60%),
+    var(--paper);
+  padding-bottom:96px;
+}
+.screen{max-width:1100px;margin:0 auto;padding:28px 0 8px}
+.head{padding:0 22px 18px;text-align:center}
+.brand{font-family:"Great Vibes","Brush Script MT",cursive;font-size:30px;color:var(--burgundy)}
+h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:42px;line-height:1.1;margin-top:4px}
+.sub{color:var(--muted);font-size:15px;margin-top:6px}
+
+/* HP: carousel dengan kartu berikutnya mengintip */
+.track{
+  display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:10px 11% 22px;scroll-padding:0 11%;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.track::-webkit-scrollbar{display:none}
+.card{
+  flex:0 0 78%;scroll-snap-align:center;
+  background:#fffdf9;border-radius:18px;padding:12px 12px 16px;
+  box-shadow:0 1px 0 #fff inset,0 14px 30px -12px rgba(70,45,30,.35);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+  display:flex;flex-direction:column;
+}
+.card.sel{box-shadow:0 0 0 3px var(--ring,#7a1f3d),0 18px 34px -12px rgba(70,45,30,.4)}
+.card[data-theme=love]{--ring:#7a1f3d}
+.card[data-theme=friendship]{--ring:#1e3a5f}
+.card[data-theme=appreciation]{--ring:var(--appr)}
+.art{border-radius:10px;overflow:hidden;aspect-ratio:300/380;background:#eee;cursor:pointer}
+.art svg{display:block;width:100%;height:100%}
+.name{margin:14px 4px 2px;font-weight:400;line-height:1.1}
+.name-love{font-family:"Great Vibes",cursive;font-size:38px;color:var(--burgundy)}
+.name-friend{font-family:"Caveat",cursive;font-size:38px;font-weight:700;color:var(--navy)}
+.name-appr{font-family:"Playfair Display",Georgia,serif;font-size:28px;font-weight:700;color:var(--ink)}
+.tag{margin:6px 4px 12px;font-size:14px;line-height:1.5;color:var(--muted);flex:1}
+.pick{
+  appearance:none;border:0;cursor:pointer;border-radius:999px;padding:13px 18px;
+  font:600 15px "Quicksand",sans-serif;color:#fff;background:var(--ring);
+  min-height:46px;transition:transform .15s,filter .2s;
+}
+.pick:active{transform:scale(.97)}
+.card.sel .pick{background:#fff;color:var(--ring);box-shadow:inset 0 0 0 2px var(--ring)}
+.pick:focus-visible,.dot:focus-visible,#next:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+
+.accs{display:flex;gap:10px;margin:0 4px 12px}
+.dot{width:30px;height:30px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #cdbfae;cursor:pointer}
+.dot-blue{background:#3f74b8}.dot-pink{background:#d9648a}
+.dot.is-on{box-shadow:0 0 0 2px var(--ink)}
+.card[data-acc=blue]{--appr:#3f74b8}
+.card[data-acc=pink]{--appr:#d9648a}
+.acc-fill{fill:var(--appr)}
+
+.dots{display:flex;justify-content:center;gap:8px;margin-top:2px}
+.dots span{width:8px;height:8px;border-radius:50%;background:#d8c9b6;transition:width .25s,background .25s}
+.dots span.on{width:22px;border-radius:6px;background:var(--burgundy)}
+
+/* teks di dalam SVG */
+.t-love{font-family:"Great Vibes",cursive;font-size:22px;fill:#7a1f3d}
+.t-friend{font-family:"Caveat",cursive;font-size:17px;font-weight:700;fill:#1e3a5f}
+.t-note{font-family:"Caveat",cursive;font-size:18px;font-weight:700;fill:#1e3a5f}
+.t-appr{font-family:"Playfair Display",Georgia,serif;font-size:30px;font-weight:700;fill:#3a2f2a}
+.t-appr-s{font-family:"Cormorant Garamond",Georgia,serif;font-size:17px;font-weight:600;fill:#7d6f66}
+
+/* bar pilihan */
+.bar{
+  position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));
+  max-width:520px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--ink);color:#fff;padding:10px 10px 10px 18px;border-radius:999px;font-weight:600;
+  transform:translateY(140%);opacity:0;pointer-events:none;
+}
+.bar.show{pointer-events:auto}
+#next{appearance:none;border:0;border-radius:999px;padding:11px 18px;min-height:44px;font:600 15px "Quicksand",sans-serif;background:#fff;color:var(--ink);cursor:pointer}
+.toast{
+  position:fixed;left:50%;bottom:86px;transform:translateX(-50%) translateY(10px);
+  background:#fff;color:var(--ink);padding:10px 16px;border-radius:12px;font-size:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;pointer-events:none;width:max-content;max-width:90vw;
+}
+
+/* desktop: tiga kartu berjajar */
+@media (min-width:900px){
+  .screen{padding-top:44px}
+  h1{font-size:58px}
+  .track{overflow:visible;scroll-snap-type:none;padding:18px 32px 30px;gap:28px;align-items:stretch}
+  .card{flex:1 1 0}
+  .card:hover{transform:translateY(-8px) rotate(-.6deg)}
+  .card:nth-child(2):hover{transform:translateY(-8px) rotate(.6deg)}
+  .dots{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .card{transition:none}.card:hover{transform:none!important}
+}
